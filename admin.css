@@ -1,318 +1,1964 @@
+/* =========================================================
+   RESET
+========================================================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: #f5f5f5;
-    color: #222;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #08080a;
+    color: #f4f4f4;
+    min-height: 100vh;
 }
 
-
-/* HEADER */
-
-.admin-header {
-    background: #222;
-    color: white;
-
-    padding: 20px 7%;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+img {
+    max-width: 100%;
+    display: block;
 }
 
-.admin-header a {
-    color: white;
+button,
+input,
+textarea {
+    font-family: inherit;
+}
+
+a {
+    color: inherit;
     text-decoration: none;
 }
 
 
-/* CONTAINER */
+/* =========================================================
+   PALETA
+========================================================= */
+
+:root {
+    --bg: #08080a;
+    --bg-soft: #0d0d10;
+    --bg-card: #111114;
+    --bg-input: #0b0b0e;
+
+    --white: #f4f4f4;
+    --white-soft: #d0d0d5;
+
+    --gray: #8a8a93;
+    --gray-dark: #62626a;
+
+    --purple: #8b00ff;
+    --purple-bright: #a020ff;
+    --purple-soft: rgba(139, 0, 255, 0.12);
+    --purple-line: rgba(139, 0, 255, 0.35);
+
+    --magenta: #d100ff;
+
+    --red: #f04444;
+
+    --line: rgba(255, 255, 255, 0.10);
+    --line-soft: rgba(255, 255, 255, 0.06);
+
+    --success: #63d391;
+
+    --shadow:
+        0 18px 50px rgba(0, 0, 0, 0.32);
+
+    --shadow-hover:
+        0 25px 65px rgba(0, 0, 0, 0.45);
+
+    --max-width: 1240px;
+}
+
+
+/* =========================================================
+   SELEÇÃO
+========================================================= */
+
+::selection {
+    background: var(--purple);
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   FUNDO DECORATIVO
+========================================================= */
+
+body::before {
+    content: "";
+
+    position: fixed;
+
+    width: 420px;
+    height: 420px;
+
+    top: -160px;
+    right: -160px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(139, 0, 255, 0.16);
+
+    box-shadow:
+        0 0 0 35px rgba(139, 0, 255, 0.025),
+        0 0 0 75px rgba(139, 0, 255, 0.015);
+
+    pointer-events: none;
+
+    z-index: -1;
+
+    animation:
+        orbitar 18s ease-in-out infinite;
+}
+
+body::after {
+    content: "";
+
+    position: fixed;
+
+    width: 250px;
+    height: 250px;
+
+    left: -140px;
+    bottom: -120px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(209, 0, 255, 0.06);
+
+    filter: blur(70px);
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+@keyframes orbitar {
+
+    0%,
+    100% {
+        transform:
+            translate3d(0, 0, 0)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            translate3d(-20px, 25px, 0)
+            rotate(6deg);
+    }
+}
+
+
+/* =========================================================
+   HEADER ADMIN
+========================================================= */
+
+.admin-header {
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+
+    width: 100%;
+
+    min-height: 76px;
+
+    padding: 0 6%;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 25px;
+
+    background:
+        rgba(8, 8, 10, 0.90);
+
+    color: var(--white);
+
+    border-bottom:
+        1px solid var(--line);
+
+    backdrop-filter:
+        blur(16px);
+
+    -webkit-backdrop-filter:
+        blur(16px);
+}
+
+.admin-header::after {
+    content: "";
+
+    position: absolute;
+
+    left: 6%;
+    right: 6%;
+
+    bottom: -1px;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(139, 0, 255, 0.50),
+            transparent
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   LINK DO HEADER
+========================================================= */
+
+.admin-header a {
+    position: relative;
+
+    color: var(--white);
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    letter-spacing: 0.01em;
+
+    transition:
+        color .3s ease,
+        transform .3s ease;
+}
+
+.admin-header a:hover {
+    color: var(--purple-bright);
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   MENU ADMIN
+========================================================= */
+
+.admin-menu {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.admin-menu a {
+    color: var(--gray);
+
+    transition:
+        color .3s ease;
+}
+
+.admin-menu a:hover {
+    color: var(--white);
+}
+
+
+/* =========================================================
+   BOTÃO SAIR
+========================================================= */
+
+#btn-sair {
+    position: relative;
+
+    border:
+        1px solid rgba(139, 0, 255, 0.55);
+
+    background:
+        transparent;
+
+    color: var(--white);
+
+    padding:
+        9px 17px;
+
+    border-radius:
+        4px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.04em;
+
+    overflow: hidden;
+
+    transition:
+        color .35s ease,
+        border-color .35s ease,
+        transform .35s cubic-bezier(.22, 1, .36, 1),
+        background .35s ease;
+}
+
+#btn-sair::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        var(--purple);
+
+    transform:
+        scaleX(0);
+
+    transform-origin: right;
+
+    transition:
+        transform .5s cubic-bezier(.22, 1, .36, 1);
+
+    z-index: -1;
+}
+
+#btn-sair:hover {
+    color: #ffffff;
+
+    border-color:
+        var(--purple);
+
+    transform:
+        translateY(-2px);
+}
+
+#btn-sair:hover::before {
+    transform:
+        scaleX(1);
+
+    transform-origin:
+        left;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
 
 .admin-container {
-    width: 90%;
-    max-width: 1100px;
+    position: relative;
 
-    margin: 50px auto;
+    width: min(92%, var(--max-width));
+
+    margin:
+        45px auto 85px;
 
     display: grid;
 
     grid-template-columns:
-        1fr 1fr;
+        minmax(0, .90fr)
+        minmax(0, 1.10fr);
 
-    gap: 40px;
+    gap: 22px;
+
+    align-items: start;
 }
 
 
-/* SEÇÕES */
+/* =========================================================
+   SEÇÕES
+========================================================= */
 
 .form-section,
 .produtos-section {
-    background: white;
+    position: relative;
+
+    background:
+        rgba(17, 17, 20, 0.96);
 
     padding: 30px;
 
-    border-radius: 15px;
+    border:
+        1px solid var(--line);
+
+    border-radius:
+        10px;
+
+    box-shadow:
+        var(--shadow);
+
+    overflow: hidden;
+
+    animation:
+        entradaSecao
+        .7s
+        cubic-bezier(.22, 1, .36, 1)
+        both;
+}
+
+.produtos-section {
+    animation-delay:
+        .08s;
 }
 
 
-/* TÍTULOS */
+/* LINHA SUPERIOR */
+
+.form-section::before,
+.produtos-section::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--purple),
+            var(--magenta),
+            transparent 78%
+        );
+}
+
+
+/* ELEMENTO DECORATIVO */
+
+.form-section::after,
+.produtos-section::after {
+    content: "";
+
+    position: absolute;
+
+    width: 160px;
+    height: 160px;
+
+    right: -100px;
+    bottom: -100px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(139, 0, 255, 0.11);
+
+    pointer-events: none;
+}
+
+@keyframes entradaSecao {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(18px)
+            scale(.99);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   TÍTULOS
+========================================================= */
 
 h2 {
-    margin-bottom: 25px;
+    position: relative;
+
+    margin-bottom: 26px;
+
+    color:
+        var(--white);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size:
+        clamp(
+            24px,
+            3vw,
+            32px
+        );
+
+    font-weight:
+        800;
+
+    line-height:
+        1.08;
+
+    letter-spacing:
+        0.01em;
+}
+
+h2::after {
+    content: "";
+
+    display: block;
+
+    width: 38px;
+    height: 2px;
+
+    margin-top: 13px;
+
+    background:
+        var(--purple-bright);
+
+    transform-origin:
+        left;
+
+    animation:
+        linhaTitulo
+        .8s
+        cubic-bezier(.22, 1, .36, 1)
+        both;
+}
+
+@keyframes linhaTitulo {
+
+    from {
+        opacity: 0;
+
+        transform:
+            scaleX(0);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            scaleX(1);
+    }
 }
 
 
-/* CAMPOS */
+/* =========================================================
+   CAMPOS
+========================================================= */
 
 .campo {
-    margin-bottom: 20px;
+    margin-bottom:
+        20px;
 }
 
 .campo label {
     display: block;
 
-    margin-bottom: 8px;
+    margin-bottom:
+        8px;
 
-    font-weight: bold;
+    color:
+        var(--white-soft);
+
+    font-size:
+        12px;
+
+    font-weight:
+        700;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.05em;
 }
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
 
 .campo input,
-.campo textarea {
+.campo textarea,
+.campo select {
     width: 100%;
 
-    padding: 12px;
+    padding:
+        13px 14px;
 
-    border: 1px solid #ddd;
+    border:
+        1px solid var(--line);
 
-    border-radius: 8px;
+    border-radius:
+        5px;
 
-    font-size: 15px;
+    background:
+        var(--bg-input);
+
+    color:
+        var(--white);
+
+    font-size:
+        14px;
+
+    line-height:
+        1.45;
+
+    outline:
+        none;
+
+    appearance:
+        none;
+
+    transition:
+        border-color .3s ease,
+        background .3s ease,
+        box-shadow .35s ease,
+        transform .3s ease;
+}
+
+.campo textarea {
+    min-height:
+        130px;
+
+    resize:
+        vertical;
+}
+
+.campo input::placeholder,
+.campo textarea::placeholder {
+    color:
+        var(--gray-dark);
+}
+
+.campo input:hover,
+.campo textarea:hover,
+.campo select:hover {
+    border-color:
+        rgba(255, 255, 255, 0.20);
+}
+
+.campo input:focus,
+.campo textarea:focus,
+.campo select:focus {
+    background:
+        #0d0d11;
+
+    border-color:
+        var(--purple);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(139, 0, 255, 0.10);
+
+    transform:
+        translateY(-1px);
 }
 
 
-/* BOTÃO */
+/* =========================================================
+   BOTÃO SALVAR
+========================================================= */
 
 .btn-salvar {
+    position: relative;
+
     width: 100%;
 
-    padding: 14px;
+    padding:
+        14px 18px;
 
-    border: none;
+    border:
+        1px solid var(--purple);
 
-    border-radius: 8px;
+    border-radius:
+        5px;
 
-    background: #222;
+    background:
+        var(--purple);
 
-    color: white;
+    color:
+        #ffffff;
 
-    font-size: 16px;
+    font-size:
+        13px;
 
-    cursor: pointer;
+    font-weight:
+        700;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.04em;
+
+    cursor:
+        pointer;
+
+    overflow:
+        hidden;
+
+    isolation:
+        isolate;
+
+    transition:
+        transform .35s cubic-bezier(.22, 1, .36, 1),
+        box-shadow .35s ease,
+        background .3s ease;
+}
+
+.btn-salvar::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -110%;
+
+    width: 70%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            105deg,
+            transparent,
+            rgba(255, 255, 255, .18),
+            transparent
+        );
+
+    transform:
+        skewX(-18deg);
+
+    transition:
+        left .7s cubic-bezier(.22, 1, .36, 1);
+
+    z-index:
+        -1;
 }
 
 .btn-salvar:hover {
-    opacity: 0.85;
+    background:
+        var(--purple-bright);
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 30px
+        rgba(139, 0, 255, 0.25);
+}
+
+.btn-salvar:hover::before {
+    left:
+        135%;
+}
+
+.btn-salvar:active {
+    transform:
+        translateY(0)
+        scale(.99);
 }
 
 
-/* MENSAGEM */
+/* =========================================================
+   MENSAGEM
+========================================================= */
 
 #mensagem {
-    margin-top: 15px;
+    margin-top:
+        14px;
+
+    min-height:
+        18px;
+
+    color:
+        var(--gray);
+
+    font-size:
+        12px;
+
+    line-height:
+        1.5;
+
+    transition:
+        opacity .3s ease,
+        transform .3s ease;
 }
 
 
-/* RESPONSIVO */
+/* =========================================================
+   LISTA DE PRODUTOS
+========================================================= */
 
-@media (max-width: 800px) {
+#lista-produtos {
+    display:
+        flex;
 
-    .admin-container {
-        grid-template-columns: 1fr;
-    }
+    flex-direction:
+        column;
 
+    gap:
+        11px;
 }
+
+
+/* =========================================================
+   PRODUTO ADMIN
+========================================================= */
 
 .produto-admin {
-    display: flex;
-    gap: 15px;
-    padding: 15px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background: #fafafa;
+    position: relative;
+
+    display:
+        flex;
+
+    gap:
+        15px;
+
+    padding:
+        13px;
+
+    margin-bottom:
+        0;
+
+    border:
+        1px solid var(--line);
+
+    border-radius:
+        7px;
+
+    background:
+        #0d0d10;
+
+    overflow:
+        hidden;
+
+    transition:
+        transform .4s cubic-bezier(.22, 1, .36, 1),
+        box-shadow .4s cubic-bezier(.22, 1, .36, 1),
+        border-color .3s ease,
+        background .3s ease;
 }
+
+.produto-admin::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 2px;
+    height: 100%;
+
+    background:
+        var(--purple);
+
+    transform:
+        scaleY(0);
+
+    transform-origin:
+        bottom;
+
+    transition:
+        transform .45s cubic-bezier(.22, 1, .36, 1);
+}
+
+.produto-admin:hover {
+    background:
+        #101014;
+
+    border-color:
+        rgba(139, 0, 255, 0.28);
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        var(--shadow-hover);
+}
+
+.produto-admin:hover::before {
+    transform:
+        scaleY(1);
+
+    transform-origin:
+        top;
+}
+
+
+/* =========================================================
+   IMAGEM DO PRODUTO
+========================================================= */
 
 .produto-admin img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
+    width:
+        105px;
+
+    height:
+        105px;
+
+    flex-shrink:
+        0;
+
+    object-fit:
+        contain;
+
+    border-radius:
+        5px;
+
+    padding:
+        5px;
+
+    background:
+        #070709;
+
+    border:
+        1px solid var(--line-soft);
+
+    transition:
+        transform .5s cubic-bezier(.22, 1, .36, 1),
+        border-color .3s ease;
 }
 
+.produto-admin:hover img {
+    transform:
+        scale(1.025);
+
+    border-color:
+        rgba(139, 0, 255, 0.30);
+}
+
+
+/* =========================================================
+   INFORMAÇÕES
+========================================================= */
+
 .produto-admin-info {
-    flex: 1;
+    flex:
+        1;
+
+    min-width:
+        0;
+
+    padding:
+        2px 2px 2px 0;
 }
 
 .produto-admin-info h3 {
-    margin-bottom: 8px;
+    margin-bottom:
+        7px;
+
+    color:
+        var(--white);
+
+    font-size:
+        17px;
+
+    font-weight:
+        700;
+
+    line-height:
+        1.2;
+
+    letter-spacing:
+        0.01em;
 }
 
 .produto-admin-info p {
-    margin-bottom: 6px;
-    color: #555;
+    margin-bottom:
+        6px;
+
+    color:
+        var(--gray);
+
+    font-size:
+        12px;
+
+    line-height:
+        1.5;
 }
 
 .produto-admin-info strong {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 18px;
+    display:
+        block;
+
+    margin-bottom:
+        8px;
+
+    color:
+        var(--purple-bright);
+
+    font-size:
+        16px;
+
+    font-weight:
+        700;
 }
 
+
+/* =========================================================
+   AÇÕES
+========================================================= */
+
 .acoes-produto {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 15px;
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        7px;
+
+    margin-top:
+        13px;
 }
 
 .acoes-produto button,
 .btn-cancelar {
-    border: none;
-    padding: 9px 13px;
-    border-radius: 7px;
-    cursor: pointer;
-    font-size: 14px;
-}
+    border:
+        1px solid transparent;
 
-.btn-editar {
-    background: #e8e8e8;
-    color: #222;
-}
+    padding:
+        8px 12px;
 
-.btn-status {
-    background: #e8e8e8;
-    color: #222;
-}
+    border-radius:
+        4px;
 
-.btn-excluir {
-    background: #222;
-    color: white;
-}
+    cursor:
+        pointer;
 
-.btn-cancelar {
-    width: 100%;
-    margin-top: 10px;
-    background: #ddd;
-    color: #222;
+    font-size:
+        11px;
+
+    font-weight:
+        700;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.025em;
+
+    transition:
+        transform .3s cubic-bezier(.22, 1, .36, 1),
+        background .3s ease,
+        color .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease;
 }
 
 .acoes-produto button:hover,
 .btn-cancelar:hover {
-    opacity: 0.75;
+    opacity:
+        1;
+
+    transform:
+        translateY(-2px);
 }
+
+.acoes-produto button:active,
+.btn-cancelar:active {
+    transform:
+        translateY(0)
+        scale(.98);
+}
+
+
+/* =========================================================
+   EDITAR
+========================================================= */
+
+.btn-editar {
+    background:
+        transparent;
+
+    color:
+        var(--white);
+
+    border-color:
+        rgba(255, 255, 255, 0.16) !important;
+}
+
+.btn-editar:hover {
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    border-color:
+        rgba(139, 0, 255, 0.45) !important;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.btn-status {
+    background:
+        rgba(139, 0, 255, 0.08);
+
+    color:
+        var(--purple-bright);
+
+    border-color:
+        rgba(139, 0, 255, 0.25) !important;
+}
+
+.btn-status:hover {
+    background:
+        rgba(139, 0, 255, 0.15);
+
+    border-color:
+        rgba(139, 0, 255, 0.55) !important;
+}
+
+
+/* =========================================================
+   EXCLUIR
+========================================================= */
+
+.btn-excluir {
+    position: relative;
+
+    background:
+        transparent;
+
+    color:
+        #ff7070;
+
+    border-color:
+        rgba(240, 68, 68, 0.24) !important;
+
+    overflow:
+        hidden;
+}
+
+.btn-excluir:hover {
+    background:
+        rgba(240, 68, 68, 0.10);
+
+    border-color:
+        rgba(240, 68, 68, 0.45) !important;
+
+    box-shadow:
+        0 7px 18px
+        rgba(240, 68, 68, 0.08);
+}
+
+
+/* =========================================================
+   CANCELAR
+========================================================= */
+
+.btn-cancelar {
+    width:
+        100%;
+
+    margin-top:
+        10px;
+
+    background:
+        transparent;
+
+    color:
+        var(--gray);
+
+    border-color:
+        var(--line);
+}
+
+.btn-cancelar:hover {
+    color:
+        var(--white);
+
+    background:
+        rgba(255, 255, 255, 0.05);
+
+    border-color:
+        rgba(139, 0, 255, 0.30);
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
 
 .login-container {
-    min-height: 100vh;
+    position:
+        relative;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height:
+        100vh;
 
-    padding: 20px;
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        30px;
+
+    overflow:
+        hidden;
+
+    background:
+        #08080a;
 }
+
+
+/* FUNDO LOGIN */
+
+.login-container::before {
+    content: "";
+
+    position:
+        absolute;
+
+    width:
+        520px;
+
+    height:
+        520px;
+
+    top:
+        -220px;
+
+    left:
+        -180px;
+
+    border-radius:
+        50%;
+
+    border:
+        1px solid
+        rgba(139, 0, 255, 0.16);
+
+    box-shadow:
+        0 0 0 35px
+        rgba(139, 0, 255, 0.025),
+
+        0 0 0 75px
+        rgba(139, 0, 255, 0.015);
+
+    animation:
+        loginOrb 16s
+        ease-in-out
+        infinite;
+}
+
+.login-container::after {
+    content: "";
+
+    position:
+        absolute;
+
+    width:
+        380px;
+
+    height:
+        380px;
+
+    bottom:
+        -190px;
+
+    right:
+        -130px;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(209, 0, 255, 0.06);
+
+    filter:
+        blur(65px);
+
+    animation:
+        loginOrb 20s
+        ease-in-out
+        infinite reverse;
+}
+
+@keyframes loginOrb {
+
+    0%,
+    100% {
+        transform:
+            translate3d(0, 0, 0)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            translate3d(18px, -15px, 0)
+            rotate(6deg);
+    }
+}
+
+
+/* =========================================================
+   CAIXA LOGIN
+========================================================= */
 
 .login-box {
-    width: 100%;
-    max-width: 420px;
+    position:
+        relative;
 
-    background: white;
+    z-index:
+        2;
 
-    padding: 40px;
+    width:
+        100%;
 
-    border-radius: 15px;
+    max-width:
+        420px;
 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    background:
+        rgba(17, 17, 20, 0.96);
+
+    padding:
+        40px 36px;
+
+    border:
+        1px solid var(--line);
+
+    border-radius:
+        10px;
+
+    box-shadow:
+        0 25px 70px
+        rgba(0, 0, 0, 0.42);
+
+    backdrop-filter:
+        blur(14px);
+
+    -webkit-backdrop-filter:
+        blur(14px);
+
+    animation:
+        loginEntrada
+        .9s
+        cubic-bezier(.22, 1, .36, 1)
+        both;
 }
+
+.login-box::before {
+    content: "";
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        15%;
+
+    width:
+        70%;
+
+    height:
+        2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--purple),
+            var(--magenta),
+            transparent
+        );
+}
+
+.login-box::after {
+    content: "";
+
+    position:
+        absolute;
+
+    width:
+        110px;
+
+    height:
+        110px;
+
+    right:
+        -60px;
+
+    bottom:
+        -60px;
+
+    border-radius:
+        50%;
+
+    border:
+        1px solid
+        rgba(139, 0, 255, 0.13);
+}
+
+@keyframes loginEntrada {
+
+    from {
+        opacity:
+            0;
+
+        transform:
+            translateY(25px)
+            scale(.97);
+    }
+
+    to {
+        opacity:
+            1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   TÍTULO LOGIN
+========================================================= */
 
 .login-box h1 {
-    margin-bottom: 10px;
+    margin-bottom:
+        10px;
+
+    color:
+        var(--white);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size:
+        clamp(
+            30px,
+            6vw,
+            42px
+        );
+
+    font-weight:
+        800;
+
+    line-height:
+        1;
+
+    letter-spacing:
+        0.01em;
 }
+
+.login-box h1::after {
+    content: "";
+
+    display:
+        block;
+
+    width:
+        38px;
+
+    height:
+        2px;
+
+    margin-top:
+        14px;
+
+    background:
+        var(--purple-bright);
+}
+
+
+/* =========================================================
+   TEXTO LOGIN
+========================================================= */
 
 .login-box > p {
-    margin-bottom: 30px;
-    color: #666;
+    margin-bottom:
+        28px;
+
+    color:
+        var(--gray);
+
+    font-size:
+        13px;
+
+    line-height:
+        1.65;
 }
+
+
+/* =========================================================
+   MENSAGEM LOGIN
+========================================================= */
 
 #login-mensagem {
-    margin-top: 15px;
-    text-align: center;
+    margin-top:
+        14px;
+
+    text-align:
+        center;
+
+    color:
+        var(--gray);
+
+    font-size:
+        12px;
+
+    line-height:
+        1.5;
 }
 
 
-.admin-menu {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.admin-menu a {
-    color: white;
-    text-decoration: none;
-}
-
-#btn-sair {
-    border: 1px solid white;
-    background: transparent;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 7px;
-    cursor: pointer;
-}
-
-#btn-sair:hover {
-    background: white;
-    color: #222;
-}
-
-
-/* ==========================================
+/* =========================================================
    PRÉVIA DA IMAGEM
-   ========================================== */
+========================================================= */
 
 .preview-container {
-    width: 100%;
-    min-height: 220px;
+    position:
+        relative;
 
-    margin-top: 15px;
+    width:
+        100%;
 
-    border: 2px dashed #ddd;
-    border-radius: 12px;
+    min-height:
+        220px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-top:
+        14px;
 
-    overflow: hidden;
+    border:
+        1px dashed
+        rgba(255, 255, 255, 0.18);
 
-    background: #fafafa;
+    border-radius:
+        6px;
 
-    color: #888;
-    text-align: center;
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    overflow:
+        hidden;
+
+    background:
+        #0a0a0c;
+
+    color:
+        var(--gray);
+
+    text-align:
+        center;
+
+    transition:
+        border-color .35s ease,
+        background .35s ease,
+        box-shadow .4s ease;
 }
+
+.preview-container::before {
+    content: "";
+
+    position:
+        absolute;
+
+    inset:
+        9px;
+
+    border:
+        1px solid
+        rgba(139, 0, 255, 0.10);
+
+    border-radius:
+        4px;
+
+    pointer-events:
+        none;
+
+    transition:
+        opacity .3s ease;
+}
+
+.preview-container:hover {
+    border-color:
+        rgba(139, 0, 255, 0.55);
+
+    background:
+        #0d0d10;
+
+    box-shadow:
+        inset 0 0 0 1px
+        rgba(139, 0, 255, 0.03),
+
+        0 12px 26px
+        rgba(0, 0, 0, 0.20);
+}
+
+
+/* =========================================================
+   PREVIEW IMAGE
+========================================================= */
 
 .preview-container img {
-    display: block;
+    position:
+        relative;
 
-    width: 100%;
-    max-height: 300px;
+    z-index:
+        1;
 
-    object-fit: contain;
+    display:
+        block;
+
+    width:
+        100%;
+
+    max-height:
+        300px;
+
+    object-fit:
+        contain;
+
+    padding:
+        12px;
+
+    transition:
+        transform .6s
+        cubic-bezier(.22, 1, .36, 1);
 }
 
+.preview-container:hover img {
+    transform:
+        scale(1.025);
+}
+
+
+/* =========================================================
+   TEXTO DA PREVIEW
+========================================================= */
+
 .preview-container p {
-    padding: 20px;
+    position:
+        relative;
+
+    z-index:
+        1;
+
+    padding:
+        20px;
+
+    color:
+        var(--gray);
+
+    font-size:
+        12px;
+
+    line-height:
+        1.5;
+}
+
+
+/* =========================================================
+   RESPONSIVO — TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .admin-container {
+        grid-template-columns:
+            1fr;
+
+        max-width:
+            760px;
+    }
+
+    .admin-header {
+        padding:
+            0 5%;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVO — MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .admin-header {
+        min-height:
+            68px;
+
+        padding:
+            0 20px;
+
+        gap:
+            12px;
+    }
+
+    .admin-header a {
+        font-size:
+            12px;
+    }
+
+    .admin-menu {
+        gap:
+            9px;
+    }
+
+    .admin-menu a {
+        display:
+            none;
+    }
+
+    #btn-sair {
+        padding:
+            8px 13px;
+
+        font-size:
+            10px;
+    }
+
+
+    /* CONTAINER */
+
+    .admin-container {
+        width:
+            calc(100% - 26px);
+
+        margin:
+            25px auto 50px;
+
+        gap:
+            15px;
+    }
+
+
+    /* SEÇÕES */
+
+    .form-section,
+    .produtos-section {
+        padding:
+            22px 17px;
+
+        border-radius:
+            8px;
+    }
+
+
+    /* TÍTULOS */
+
+    h2 {
+        margin-bottom:
+            21px;
+
+        font-size:
+            28px;
+
+        line-height:
+            1.05;
+    }
+
+
+    /* CAMPOS */
+
+    .campo {
+        margin-bottom:
+            17px;
+    }
+
+    .campo input,
+    .campo textarea,
+    .campo select {
+        padding:
+            12px;
+
+        font-size:
+            14px;
+    }
+
+
+    /* PRODUTO */
+
+    .produto-admin {
+        gap:
+            11px;
+
+        padding:
+            10px;
+
+        border-radius:
+            6px;
+    }
+
+    .produto-admin img {
+        width:
+            82px;
+
+        height:
+            82px;
+
+        border-radius:
+            4px;
+
+        padding:
+            4px;
+    }
+
+    .produto-admin-info h3 {
+        font-size:
+            15px;
+    }
+
+    .produto-admin-info p {
+        font-size:
+            11px;
+    }
+
+    .produto-admin-info strong {
+        font-size:
+            15px;
+    }
+
+
+    /* AÇÕES */
+
+    .acoes-produto {
+        gap:
+            6px;
+
+        margin-top:
+            11px;
+    }
+
+    .acoes-produto button,
+    .btn-cancelar {
+        padding:
+            7px 10px;
+
+        font-size:
+            10px;
+    }
+
+
+    /* LOGIN */
+
+    .login-container {
+        padding:
+            18px;
+    }
+
+    .login-box {
+        padding:
+            32px 22px;
+
+        border-radius:
+            8px;
+    }
+
+    .login-box h1 {
+        font-size:
+            32px;
+    }
+
+
+    /* PREVIEW */
+
+    .preview-container {
+        min-height:
+            185px;
+    }
+
+    .preview-container img {
+        max-height:
+            245px;
+    }
+}
+
+
+/* =========================================================
+   CELULARES PEQUENOS
+========================================================= */
+
+@media (max-width: 430px) {
+
+    .produto-admin {
+        display:
+            grid;
+
+        grid-template-columns:
+            74px 1fr;
+    }
+
+    .produto-admin img {
+        width:
+            74px;
+
+        height:
+            74px;
+    }
+
+    .produto-admin-info {
+        min-width:
+            0;
+    }
+
+    .acoes-produto {
+        grid-column:
+            1 / -1;
+    }
+
+    .preview-container {
+        min-height:
+            165px;
+    }
+}
+
+
+/* =========================================================
+   REDUÇÃO DE MOVIMENTO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration:
+            .01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        scroll-behavior:
+            auto !important;
+
+        transition-duration:
+            .01ms !important;
+    }
 }

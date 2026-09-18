@@ -103,7 +103,6 @@ function configurarLinks() {
 
             botao.href =
                 `https://wa.me/${SITE_CONFIG.whatsapp}`;
-
         }
 
 
@@ -113,13 +112,12 @@ function configurarLinks() {
 
         botao.rel =
             "noopener noreferrer";
-
     });
 
 
-    // ====================================
+    // ======================================
     // INSTAGRAM
-    // ====================================
+    // ======================================
 
     const botoesInstagram =
         document.querySelectorAll(
@@ -133,7 +131,6 @@ function configurarLinks() {
 
             botao.href =
                 SITE_CONFIG.instagram;
-
         }
 
 
@@ -143,9 +140,7 @@ function configurarLinks() {
 
         botao.rel =
             "noopener noreferrer";
-
     });
-
 }
 
 
@@ -166,6 +161,7 @@ function abrirProduto(produto) {
 
 
     // Imagem
+
     if (modalImagem) {
 
         modalImagem.src =
@@ -177,6 +173,7 @@ function abrirProduto(produto) {
 
 
     // Nome
+
     if (modalNome) {
 
         modalNome.textContent =
@@ -185,6 +182,7 @@ function abrirProduto(produto) {
 
 
     // Descrição
+
     if (modalDescricao) {
 
         modalDescricao.textContent =
@@ -193,6 +191,7 @@ function abrirProduto(produto) {
 
 
     // Preço
+
     if (modalPreco) {
 
         modalPreco.textContent =
@@ -203,6 +202,7 @@ function abrirProduto(produto) {
 
 
     // WhatsApp
+
     if (modalWhatsApp) {
 
         modalWhatsApp.href =
@@ -211,12 +211,14 @@ function abrirProduto(produto) {
 
 
     // Abrir modal
+
     produtoModal.classList.add(
         "aberto"
     );
 
 
     // Impedir rolagem da página
+
     document.body.style.overflow =
         "hidden";
 }
@@ -229,6 +231,7 @@ function abrirProduto(produto) {
 function fecharProdutoModal() {
 
     if (!produtoModal) {
+
         return;
     }
 
@@ -239,6 +242,7 @@ function fecharProdutoModal() {
 
 
     // Liberar rolagem
+
     document.body.style.overflow =
         "";
 }
@@ -254,7 +258,6 @@ if (fecharModal) {
         "click",
         fecharProdutoModal
     );
-
 }
 
 
@@ -268,7 +271,6 @@ if (modalOverlay) {
         "click",
         fecharProdutoModal
     );
-
 }
 
 
@@ -288,9 +290,7 @@ document.addEventListener(
         ) {
 
             fecharProdutoModal();
-
         }
-
     }
 );
 
@@ -334,7 +334,29 @@ async function carregarProdutos() {
 
 
     // ======================================
-    // BUSCAR PRODUTOS ATIVOS
+    // VERIFICAR VITRINE
+    // ======================================
+
+    if (!SITE_CONFIG.vitrineId) {
+
+        console.error(
+            "ID da vitrine não configurado."
+        );
+
+
+        container.innerHTML = `
+            <p>
+                Vitrine não configurada.
+            </p>
+        `;
+
+
+        return;
+    }
+
+
+    // ======================================
+    // BUSCAR PRODUTOS DA VITRINE
     // ======================================
 
     const {
@@ -344,7 +366,14 @@ async function carregarProdutos() {
         await supabaseClient
             .from("produtos")
             .select("*")
-            .eq("ativo", true)
+            .eq(
+                "ativo",
+                true
+            )
+            .eq(
+                "vitrine_id",
+                SITE_CONFIG.vitrineId
+            )
             .order(
                 "criado_em",
                 {
@@ -383,6 +412,7 @@ async function carregarProdutos() {
             </p>
         `;
 
+
         return;
     }
 
@@ -401,6 +431,7 @@ async function carregarProdutos() {
                 Nenhum produto disponível.
             </p>
         `;
+
 
         return;
     }
@@ -431,7 +462,6 @@ async function carregarProdutos() {
 
 
         card.innerHTML = `
-
             <img
                 src="${produto.imagem_url}"
                 alt="${produto.nome}"
@@ -448,12 +478,10 @@ async function carregarProdutos() {
                 </p>
 
                 <div class="preco">
-
                     R$
                     ${Number(produto.preco)
                         .toFixed(2)
                         .replace(".", ",")}
-
                 </div>
 
                 <a
@@ -466,7 +494,6 @@ async function carregarProdutos() {
                 </a>
 
             </div>
-
         `;
 
 
@@ -480,6 +507,7 @@ async function carregarProdutos() {
 
                 // Se clicou no WhatsApp,
                 // mantém o comportamento normal
+
                 if (
                     event.target.closest(
                         ".btn-produto-whatsapp"
@@ -491,7 +519,6 @@ async function carregarProdutos() {
 
 
                 abrirProduto(produto);
-
             }
         );
 
@@ -501,7 +528,6 @@ async function carregarProdutos() {
         );
 
     });
-
 }
 
 
@@ -514,7 +540,6 @@ async function iniciarSite() {
     configurarLinks();
 
     await carregarProdutos();
-
 }
 
 
@@ -523,7 +548,8 @@ async function iniciarSite() {
 // ==========================================
 
 if (
-    document.readyState === "loading"
+    document.readyState ===
+    "loading"
 ) {
 
     document.addEventListener(
